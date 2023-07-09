@@ -1,0 +1,52 @@
+<% layout('layouts/boilerplate')%>
+
+<div class="container vh-100">
+  <!-- <h1 class="animate__animated animate__lightSpeedInLeft">URL shortener</h1>
+  <form action="/shorty" method="POST" class="my-4 form-check-inline">
+    <label for="fullurl" class="sr-only"></label>
+    <input
+      type="url"
+      name="fullurl"
+      id="fullurl"
+      placeholder="Url"
+      required
+      class="form-control mr-2 col"
+    />
+    <button type="submit" class="btn btn-success">Shrink</button>
+  </form> -->
+  <div class="table-responsive animate__animated animate__fadeInRight">
+    <table class="table table-striped table-responsive">
+      <thead>
+        <tr>
+          <th>FUll URL</th>
+          <th>Short URL</th>
+          <th>views</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% shortUrls.forEach((shortUrl) => { %>
+        <tr>
+          <td>
+            <a href="<%=shortUrl.full%>"><%= shortUrl.full %></a>
+          </td>
+          <td>
+            <a href="/shorty/<%=shortUrl.short%>" target="_blank"
+              ><%= shortUrl.short %></a
+            >
+          </td>
+
+          <td>
+            <a
+              href="/shorty/link/<%= shortUrl._id %>"
+              ata-bs-toggle="tooltip"
+              data-bs-placement="right"
+              title="view shorty"
+              ><%=shortUrl.clicks %></a
+            >
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>

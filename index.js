@@ -1,54 +1,61 @@
 const express = require("express");
+const morgan = require("morgan");
 const methodOverride = require("method-override");
-const ShortUrl = require("./models/shortUrl");
+const path = require("path");
+const shortyRoutes = require("./routes/shortyRoutes");
+const ejsMate = require("ejs-mate");
+const flash = require("connect-flash");
+const session = require("express-session");
+
 const Database = require("./database");
 
-
-
 const app = express();
+
+app.use(morgan("dev"));
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
 
+const sessionConfig = {
+  secret: "thisshouldbeabettersecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    // secure: true,
+    expires: Date.now() + 1000 * 60 * 60 * 27 * 7,
+    maxAge: 1000 * 60 * 60 * 27 * 7,
+  },
+};
+app.use(session(sessionConfig));
+app.use(flash());
 
-app.get("/", async (req, res) => {
-  const shortUrls = await ShortUrl.find({});
-  res.render("index", { shortUrls: shortUrls });
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  next();
 });
 
-app.post("/", (req, res) => {
-  res.send("hello from simple server :)");
-});
-app.post("/shortUrls", async (req, res) => {
-  console.log(req.body.fullurl);
-  const checkFullUrl = await ShortUrl.find({ full: req.body.fullurl });
-  console.log(checkFullUrl.length);
-  if (checkFullUrl.length >= 1)
-    return res.send("url already exist").sendStatus(404);
-  await ShortUrl.create({ full: req.body.fullurl });
-  res.redirect("/");
+app.get("/", (req, res) => {
+  res.render("home");
 });
 
-app.get("/:shortUrl", async (req, res) => {
-  const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl });
-  if (shortUrl == null) return res.sendStatus(404);
-  shortUrl.clicks++;
-  shortUrl.save();
-  res.redirect(shortUrl.full);
+app.use("/shorty", shortyRoutes);
+
+app.use("*", (req, res, next) => {
+  console.log("i got here");
+  res.status(404).send("Opps page not found! 404");
 });
 
-app.get("/link/:id", async (req, res) => {
-  const { id } = req.params;
-  const shortUrl = await ShortUrl.findById(id);
-  console.log(shortUrl);
-  res.render("show", { shortUrl: shortUrl });
+app.use((err, req, res, next) => {
+  const { status = 500, message = "Something went wrong" } = err;
+  req.flash("error", err.message || "Something went wrong");
 });
-
-app.delete("/deleteUrl/:id", async (req, res) => {
-  const { id } = req.params;
-  await ShortUrl.findByIdAndDelete(id);
-  res.redirect("/");
-});
-
 
 Database.connect(app);
+
+// SVGAElement
+// https://docrdsfx76ssb.cloudfront.net/static/1687983623/pages/wp-content/uploads/2022/04/H-Generic-LP-new.svg

@@ -1,0 +1,56 @@
+<% layout('layouts/boilerplate')%>
+
+<div
+  class="container d-flex flex-column justify-content-center .align-items-center vh-100"
+  id="frm-pg"
+>
+  <div class="b-show animate__animated animate__fadeIn">
+    <h1 class="text-center text-primary mb-5">New Shorty</h1>
+    <form action="/shorty" method="POST" novalidate class="validated-form wd">
+      <div class="row">
+        <div class="mb-3 col-sm">
+          <input
+            class="form-control"
+            placeholder="Place URL here"
+            type="text"
+            id="full"
+            name="shortlink[full]"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+        <div class="mb-3 col-sm">
+          <input
+            class="form-control mr-2 col"
+            type="text"
+            id="short"
+            placeholder="Alias"
+            name="shortlink[short]"
+            required
+          />
+          <div class="valid-feedback">Looks good!</div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          placeholder="Description"
+          name="shortlink[description]"
+          required
+        ></textarea>
+        <div class="valid-feedback">Make it brief.</div>
+      </div>
+      <div class="mb-3">
+        <button class="btn bg-primary text-light">
+          Trim Url
+          <img
+            src="/images/magic wand.svg"
+            class="animate__animated animate__tada"
+          />
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

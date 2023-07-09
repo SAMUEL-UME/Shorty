@@ -7,15 +7,4 @@ module.exports = {
   PORT,
 };
 
-{
-  /* <form
-action="/deleteUrl/<%=shortUrl._id%>?_method=DELETE"
-method="POST"
->
-<button type="submit" class="btn btn-outline-danger">
-  delete
-</button>
-</form>
-</td>
-<td>edit</td> */
-}
+

@@ -1,0 +1,337 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap");
+
+body {
+  font-family: "Red Hat Text", sans-serif;
+  overflow-x: hidden;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.container-s {
+  text-align: center;
+  color: #fff;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.9)),
+    url(https://wallpapercave.com/wp/wp7873384.jpg);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.5);
+}
+.container-s .top {
+  position: absolute;
+  top: 30px;
+}
+.container-s .top h2 {
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+.nav-link {
+  padding: 0.25rem 0;
+  font-weight: 700;
+  color: #acb1b5;
+  margin-left: 1rem;
+  border-bottom: 0.25rem solid transparent;
+}
+
+.nav-link:hover {
+  color: rgba(255, 255, 255, 0.5);
+  border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+.nav-link.active {
+  color: white;
+  border-bottom-color: white;
+}
+@media (max-width: 550px) {
+  .nav-link {
+    font-size: 0.8rem;
+  }
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 3rem;
+}
+p {
+  max-width: 52ch;
+}
+.start {
+  display: inline-block;
+  padding: 1em 3.5em;
+  background-color: rgb(33, 37, 41);
+  background-image: url("/images/optimizeleft.png"),
+    url("/images/optimize-right.png");
+  background-position: top left, right bottom;
+  background-repeat: no-repeat, no-repeat;
+  color: white;
+
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease 0s;
+}
+.start:hover {
+  border-radius: 0.3em;
+  background-color: #f8f9fa;
+  color: #212529;
+  transition: all 0.2s ease 0s;
+}
+
+/* ------------ */
+.blank,
+.footer {
+  width: 100%;
+  background-color: rgb(33, 37, 41);
+  background-image: url("/images/optimizeleft.png"),
+    url("/images/optimize-right.png");
+  background-position: top left, right bottom;
+  background-repeat: no-repeat, no-repeat;
+}
+.blank {
+  min-height: 40vh;
+  padding: 3rem 1rem;
+}
+
+.features-title-container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem;
+  color: #f8f9fa;
+}
+
+.features-title {
+  margin-bottom: 20px;
+  color: #f8f9fa;
+}
+.features-title span {
+  color: #0000ff;
+}
+
+.features-center {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.feature {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feature-text h2 {
+  font-size: 24px;
+  color: #f8f9fa;
+}
+
+.feature-text p {
+  font-size: 18px;
+  color: #f8f9fa;
+}
+
+.feature-icon {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  background-color: #f2f2f2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (min-width: 650px) {
+  .features-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .feature-text h2 {
+    font-size: 28px;
+  }
+
+  .views-title,
+  .features-title,
+  .pricing-title {
+    font-size: 32px;
+  }
+
+  .features-center {
+    flex-direction: row;
+    gap: 5%;
+  }
+
+  .features-title-container {
+    flex-basis: 40%;
+  }
+
+  .features-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    flex-basis: 55%;
+  }
+}
+
+/* advt section */
+.second {
+  color: #fff;
+  width: 100%;
+  box-shadow: inset 0 0 5rem rgba(0, 0, 0, 0.5);
+  background-image: url(https://th.bing.com/th/id/R.694c19896d0407405c4b0bc521022428?rik=UDa%2bKuM9op2YLA&riu=http%3a%2f%2fcdn.wallpapersafari.com%2f17%2f75%2fREDOCT.jpg&ehk=gVRzMQFyskakx6xLpdrr4Gd6AP3rzFzl2AqwmALRsUk%3d&risl=&pid=ImgRaw&r=0) !important;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  box-shadow: inset 20px 30px 5rem rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.advt {
+  width: 100%;
+  color: #f8f9fa;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  background: #000000bb;
+  padding: 3rem 1rem;
+}
+.advt .top {
+  box-shadow: inset 0 10px 5rem rgb(10, 1, 1);
+  box-shadow: 10px 10px 8px rgb(71, 67, 67);
+}
+.advt .top img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.advt .bottom h2 {
+  font-size: 30px;
+  font-weight: 700;
+  color: #f8f9fa;
+  max-width: 32ch;
+}
+.advt .bottom p {
+  font-size: 18px;
+  font-weight: 400;
+  color: #f8f9fa;
+  text-shadow: 10 3px 5px #000;
+}
+.top-online {
+  width: 500px;
+}
+.tt {
+  align-items: center;
+  border-top: 1px solid #797d81ad;
+}
+@media (max-width: 500px) {
+  .top-online {
+    width: 80%;
+    margin: 0 auto;
+  }
+}
+@media (max-width: 900px) {
+  .advt {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .advt .bottom {
+    text-align: center;
+  }
+}
+@media (max-width: 600px) {
+  .advt .bottom h2 {
+    font-size: 24px;
+  }
+  .advt .bottom p {
+    font-size: 16px;
+  }
+}
+/* ------------------------------------------- */
+
+/* ---------------- */
+.footer {
+  overflow: hidden !important;
+  min-height: 50vh;
+  padding: 2rem 1rem;
+  margin: auto;
+}
+.footer .top {
+  width: 100%;
+  color: #f8f9fa;
+
+  padding: 2rem 0 3rem 0;
+
+  border-bottom: 1px solid #f8f9fab3;
+}
+.footer .top h3 {
+  font-weight: 700;
+  font-size: 25px;
+}
+.footer .top p {
+  font-weight: 400;
+}
+.footer .bottom {
+  width: 100%;
+  padding: 2em 0 1em 0.5em;
+  text-align: center;
+  color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer .bottom p {
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .blank,
+  .footer,
+  .start {
+    background-color: rgb(33, 37, 41);
+    background-image: unset;
+    background-position: top left, right bottom;
+    background-repeat: no-repeat, no-repeat;
+  }
+}
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 430px) {
+  .footer .top h3 {
+    font-size: 20px;
+  }
+  p {
+    width: unset;
+  }
+  h1 {
+    font-size: 1.8rem;
+  }
+}
