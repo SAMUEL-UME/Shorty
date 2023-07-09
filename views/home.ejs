@@ -25,9 +25,61 @@
           Shorty
         </h2>
         <nav class="nav nav-masthead justify-content-center float-md-right">
-          <a class="nav-link active" aria-current="page" href="#">Home</a
-          ><a class="nav-link" aria-current="page" href="#">Login</a>
-          <a class="nav-link" aria-current="page" href="#">Register</a>
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+          <% if(!currentUser) { %>
+          <a href="/login" class="nav-link" aria-current="page">Login</a>
+          <a href="/register" class="nav-link" aria-current="page">Register</a>
+          <% }else{ %>
+          <div>
+            <button
+              type="submit"
+              class="btn nav-link"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Logout
+            </button>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div class="modal-body text-dark">
+                    Are you sure you want to delete this shorty?
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Cancel
+                    </button>
+                    <a
+                      class="nav-link text-danger border-1 fs-5 fw-light"
+                      href="/logout"
+                      >Logout</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>
         </nav>
       </div>
       <div class="bottom">

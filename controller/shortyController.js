@@ -1,6 +1,8 @@
 const ShortUrl = require("../models/shortUrl");
 const { isValidUrl, removeSpaces } = require("../config/utils");
 
+// ------------------------------------------
+
 module.exports.getAllLinks = async (req, res) => {
   const shortUrls = await ShortUrl.find({});
   res.render("shortlinks/index", { shortUrls: shortUrls, msg: req.flash() });
@@ -8,6 +10,7 @@ module.exports.getAllLinks = async (req, res) => {
 
 // -----------------------shorty create-----------------------
 module.exports.renderNewForm = (req, res) => {
+  console.log("I got here");
   res.render("shortlinks/new");
 };
 module.exports.createShorty = async (req, res) => {
@@ -29,14 +32,16 @@ module.exports.createShorty = async (req, res) => {
       return res.redirect("/shorty");
     }
 
-    await ShortUrl.create({
+    const newShorty = new ShortUrl({
       full: trimmedFull,
       short: trimmedShort,
       description,
     });
-
+    newShorty.author = req.user._id;
+    await newShorty.save();
+    console.log(newShorty);
     req.flash("success", "Successfully created a new shorty!");
-    res.redirect("/shorty");
+    res.redirect("/shorty/link/" + newShorty._id);
   } catch (error) {
     req.flash("error", "Oops! Something went wrong while creating shorty");
     res.redirect("/shorty");
@@ -61,7 +66,7 @@ module.exports.getOneShorty = async (req, res) => {
   try {
     console.log({ mssg: "I got into getoneshorty" });
     const { id } = req.params;
-    const shortUrl = await ShortUrl.findById(id);
+    const shortUrl = await ShortUrl.findById(id).populate("author");
     console.log(shortUrl);
     res.render("shortlinks/show", { shortUrl: shortUrl });
   } catch (e) {

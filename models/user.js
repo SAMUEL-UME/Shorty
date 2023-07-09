@@ -1,18 +1,15 @@
 const mongoose = require("mongoose");
-const { isEmail } = require("validator");
+const Schema = mongoose.Schema;
+const passportLocalMongoose = require("passport-local-mongoose");
 
-const userSchema = new mongoose.Schema({
+const UserSchema = new Schema({
   email: {
     type: String,
-    validate: [isEmail, "Please enter a valid email"],
-  },
-  password: {
-    type: String,
-    required: [true, "Please enter a password"],
-    minlength: [6, "Minimum password length is 6 characters"],
+    required: true,
+    unique: true,
   },
 });
 
-const User = mongoose.model("User", userSchema);
+UserSchema.plugin(passportLocalMongoose);
 
-module.exports = User;
+module.exports = mongoose.model("User", UserSchema);

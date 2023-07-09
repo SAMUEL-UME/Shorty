@@ -38,6 +38,7 @@
           'long', day: 'numeric', year: 'numeric' }) %>.
         </p>
       </div>
+      <% if(currentUser && shortUrl.author.equals(currentUser._id)) {%>
       <div class="btm">
         <div>
           <a href="/shorty/edit/<%= shortUrl._id %>" class="btn btn-primary"
@@ -97,6 +98,8 @@
           </div>
         </div>
       </div>
+      <% } %>
     </div>
+    <p>creator: <%= shortUrl.author.username %></p>
   </div>
 </div>

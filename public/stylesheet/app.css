@@ -65,6 +65,7 @@ main {
   color: #526cfd;
   text-align: center;
 }
+
 .b-show p {
   font-size: 1rem;
   font-weight: 500;
@@ -99,4 +100,39 @@ main {
   width: 100%;
   padding: 0.5rem 0.3rem;
   background: #ffffff;
+}
+.b-show-sm {
+  width: 35%;
+  margin: 0 auto;
+  background: #f8f9fa;
+  padding: 2rem;
+  border-radius: 20px;
+  border: 1p solid red;
+  box-shadow: 24px 24px 48px #e0e0e0, -24px -24px 48px #ffffff;
+}
+.b-show-sm label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #000;
+}
+.vh {
+  min-height: 70vh;
+}
+@media (max-width: 768px) {
+  .b-show {
+    width: 90%;
+  }
+  .date {
+    flex-direction: column-reverse;
+    gap: 2rem;
+  }
+  .b-show p {
+    font-size: 0.85rem;
+  }
+  .b-show span {
+    font-size: 0.7rem;
+  }
+  .b-show-sm {
+    width: 90%;
+  }
 }

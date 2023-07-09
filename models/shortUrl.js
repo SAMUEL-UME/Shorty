@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const shortId = require("shortid");
 
-const shortUrlSchema = new mongoose.Schema(
+const shortUrlSchema = new Schema(
   {
     full: {
       type: String,
@@ -17,6 +18,10 @@ const shortUrlSchema = new mongoose.Schema(
     description: {
       type: String,
       required: true,
+    },
+    author: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     clicks: {
       type: Number,
