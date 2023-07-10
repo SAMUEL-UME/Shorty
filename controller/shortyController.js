@@ -3,8 +3,9 @@ const { isValidUrl, removeSpaces } = require("../config/utils");
 
 // ------------------------------------------
 
-module.exports.getAllLinks = async (req, res) => {
-  const shortUrls = await ShortUrl.find({});
+module.exports.getAllLinks = async (req, res) => {  
+  const user = req.user._id;
+  const shortUrls = await ShortUrl.find({ author: user });
   res.render("shortlinks/index", { shortUrls: shortUrls, msg: req.flash() });
 };
 
