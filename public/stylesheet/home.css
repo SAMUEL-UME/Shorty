@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@400;700&display=swap");
 
-body {
-  font-family: "Red Hat Text", sans-serif;
-  overflow-x: hidden;
-}
 * {
   padding: 0;
   margin: 0;
@@ -334,4 +330,8 @@ p {
   h1 {
     font-size: 1.8rem;
   }
+}
+body {
+  font-family: "Red Hat Text", sans-serif;
+  overflow-x: hidden !important;
 }
