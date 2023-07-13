@@ -1,18 +1,25 @@
 const { Router } = require("express");
 const shortyController = require("../controller/shortyController");
-const { isAuthor } = require("../middleware");
-
+const { isAuthor } = require("../middleware/middleware");
+const catchAsync = require("../helpers/catchAsync");
 const router = Router();
 
-router.route("/").get(shortyController.getAllLinks);
-router.route("/").post(shortyController.createShorty);
-router.route("/new").get(shortyController.renderNewForm);
-router.route("/link/:id").get(shortyController.getOneShorty);
-router.route("/:shortUrl").get(shortyController.shortyRedirect);
-router.route("/edit/:id").get(shortyController.renderEditForm);
-router.route("/edit/:id").put(isAuthor, shortyController.updateShorty);
-router.route("/deleteUrl/:id").delete(isAuthor, shortyController.deleteShorty);
+router
+  .route("/")
+  .get(catchAsync(shortyController.getAllLinks))
+  .post(catchAsync(shortyController.createShorty));
+
+router.route("/new").get(catchAsync(shortyController.renderNewForm));
+router.route("/link/:id").get(catchAsync(shortyController.getOneShorty));
+router.route("/:shortUrl").get(catchAsync(shortyController.shortyRedirect));
+
+router
+  .route("/edit/:id")
+  .get(catchAsync(shortyController.renderEditForm))
+  .put(isAuthor, catchAsync(shortyController.updateShorty));
+
+router
+  .route("/deleteUrl/:id")
+  .delete(isAuthor, catchAsync(shortyController.deleteShorty));
 
 module.exports = router;
-
-

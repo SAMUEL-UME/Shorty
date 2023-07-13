@@ -1,9 +1,10 @@
 const ShortUrl = require("../models/shortUrl");
 const { isValidUrl, removeSpaces } = require("../config/utils");
+const ExpressError = require("../helpers/ExpressError");
 
 // ------------------------------------------
 
-module.exports.getAllLinks = async (req, res) => {  
+module.exports.getAllLinks = async (req, res) => {
   const user = req.user._id;
   const shortUrls = await ShortUrl.find({ author: user });
   res.render("shortlinks/index", { shortUrls: shortUrls, msg: req.flash() });
@@ -11,9 +12,9 @@ module.exports.getAllLinks = async (req, res) => {
 
 // -----------------------shorty create-----------------------
 module.exports.renderNewForm = (req, res) => {
-  console.log("I got here");
   res.render("shortlinks/new");
 };
+
 module.exports.createShorty = async (req, res) => {
   const { full, short, description } = req.body.shortlink;
 
@@ -24,7 +25,7 @@ module.exports.createShorty = async (req, res) => {
     const isValid = isValidUrl(trimmedFull);
     if (!isValid) {
       req.flash("error", "Invalid URL");
-      return res.redirect("/shorty");
+      return res.redirect("/shorty/new");
     }
 
     const existingShortUrl = await ShortUrl.exists({ full: trimmedFull });
@@ -40,7 +41,6 @@ module.exports.createShorty = async (req, res) => {
     });
     newShorty.author = req.user._id;
     await newShorty.save();
-    console.log(newShorty);
     req.flash("success", "Successfully created a new shorty!");
     res.redirect("/shorty/link/" + newShorty._id);
   } catch (error) {
@@ -64,16 +64,12 @@ module.exports.shortyRedirect = async (req, res) => {
 
 // ------------------get one shorty------------------
 module.exports.getOneShorty = async (req, res) => {
-  try {
-    console.log({ mssg: "I got into getoneshorty" });
-    const { id } = req.params;
-    const shortUrl = await ShortUrl.findById(id).populate("author");
-    console.log(shortUrl);
-    res.render("shortlinks/show", { shortUrl: shortUrl });
-  } catch (e) {
-    req.flash("error", "Opps! something went wrong while getting shorty");
-    res.redirect("/shorty");
-  }
+  console.log({ mssg: "I got into getoneshorty" });
+  const { id } = req.params;
+  const shortUrl = await ShortUrl.findById(id).populate("author");
+  console.log(shortUrl);
+  if (!shortUrl) return new ExpressError("Cannot find that shorty!", 404);
+  res.render("shortlinks/show", { shortUrl: shortUrl });
 };
 
 // ---------------------------------------------------
@@ -95,22 +91,24 @@ module.exports.updateShorty = async (req, res) => {
     const description = req.body.shortlink.description;
     const isValid = isValidUrl(full);
 
-    if (!isValid) {
-      req.flash("error", "Invalid URL");
-      return res.redirect(`/shorty/link/${id}`);
-    }
+    if (!isValid)
+      return new ExpressError("Invalid URL", 400, `/shorty/link/${id}`);
 
     const existingFullUrl = await ShortUrl.exists({ full: trimmedFull });
-    if (existingFullUrl) {
-      req.flash("error", "Full URL already exists, try another one");
-      return res.redirect(`/shorty/link/${id}`);
-    }
+    if (existingFullUrl)
+      return new ExpressError(
+        "Full URL already exists, try another one",
+        409,
+        `/shorty/link/${id}`
+      );
 
     const existingShortUrl = await ShortUrl.exists({ short: trimmedShort });
-    if (existingShortUrl) {
-      req.flash("error", "Short URL already exists, try another one");
-      return res.redirect(`/shorty/link/${id}`);
-    }
+    if (existingShortUrl)
+      return new ExpressError(
+        "Short URL already exists, try another one",
+        409,
+        `/shorty/link/${id}`
+      );
 
     await ShortUrl.findByIdAndUpdate(id, {
       full: trimmedFull,
@@ -120,11 +118,11 @@ module.exports.updateShorty = async (req, res) => {
     req.flash("success", "Successfully updated a shorty!");
     res.redirect(`/shorty/link/${id}`);
   } catch (error) {
-    req.flash(
-      "error",
-      "Oops! Something went wrong while updating the shorty, please try again"
+    new ExpressError(
+      "Oops! Something went wrong while updating shorty",
+      500,
+      `/shorty/link/${id}`
     );
-    res.redirect(`/shorty/link/${req.params.id}`);
   }
 };
 
@@ -133,14 +131,10 @@ module.exports.updateShorty = async (req, res) => {
 // ------------------delete shorty------------------
 module.exports.deleteShorty = async (req, res, next) => {
   console.log({ mssg: "i got into delete shorty" });
-  try {
-    const { id } = req.params;
-    await ShortUrl.findByIdAndDelete(id);
-    req.flash("success", "Successfully deleted a shorty!");
-    res.redirect("/shorty");
-  } catch (e) {
-    next("Could not delete this shorty");
-  }
+  const { id } = req.params;
+  await ShortUrl.findByIdAndDelete(id);
+  req.flash("success", "Successfully deleted a shorty!");
+  res.redirect("/shorty");
 };
 
 // ------------------delete shorty------------------

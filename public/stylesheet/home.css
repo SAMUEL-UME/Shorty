@@ -4,7 +4,6 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  overflow-x: hidden; 
 }
 .container-s {
   text-align: center;
@@ -335,4 +334,10 @@ p {
 body {
   font-family: "Red Hat Text", sans-serif;
   overflow-x: hidden !important;
+}
+.container-s,
+.blank,
+.second,
+.footer {
+  overflow-x: hidden;
 }

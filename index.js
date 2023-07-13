@@ -8,17 +8,17 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user");
-const { isLoggedIn } = require("./middleware");
+const { isLoggedIn } = require("./middleware/middleware");
 const { MONGO_URL } = require("./config/config");
 const MongoStore = require("connect-mongo");
-
+const ExpressError = require("./helpers/ExpressError");
 const Database = require("./database");
 const app = express();
 
 const shortyRoutes = require("./routes/shortyRoutes");
 const userRoutes = require("./routes/userRoutes");
 
-app.use(morgan("dev"));
+// app.use(morgan("dev"));
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -54,7 +54,6 @@ passport.serializeUser(User.serializeUser()); // how to store user in session
 passport.deserializeUser(User.deserializeUser()); // how to get user out of session
 
 app.use((req, res, next) => {
-  console.log(req.session);
   res.locals.currentUser = req.user; // req.user is defined by passport
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
@@ -68,14 +67,18 @@ app.get("/", (req, res) => {
 app.use("/", userRoutes);
 app.use("/shorty", isLoggedIn, shortyRoutes);
 
-app.use("*", (req, res, next) => {
-  console.log("i got here");
-  res.status(404).send("Opps page not found! 404");
+app.all("*", (req, res, next) => {
+  // console.log("i got here");
+  // res.status(404).send("Opps page not found! 404");
+  next(new ExpressError("Page Not Found", 404));
 });
 
 app.use((err, req, res, next) => {
-  const { status = 500, message = "Something went wrong" } = err;
-  req.flash("error", err.message || "Something went wrong");
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Ohh no something went wrong!";
+  req.flash("error", err.message);
+  if (!err.redirectUrl) err.redirectUrl = "/shorty";
+  res.status(statusCode).redirect(`${err.redirectUrl}`);
 });
 
 Database.connect(app);

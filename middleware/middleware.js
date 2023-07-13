@@ -1,4 +1,4 @@
-const ShortUrl = require("./models/shortUrl");
+const ShortUrl = require("../models/shortUrl");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
