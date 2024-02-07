@@ -58,6 +58,7 @@ module.exports.shortyRedirect = async (req, res) => {
   if (shortUrl == null) return res.sendStatus(404);
   shortUrl.clicks++;
   shortUrl.save();
+  console.log(shortUrl)
   res.redirect(shortUrl.full);
 };
 // -----------------------shorty redirect-----------------------

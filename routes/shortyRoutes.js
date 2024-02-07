@@ -9,6 +9,7 @@ router
   .get(catchAsync(shortyController.getAllLinks))
   .post(catchAsync(shortyController.createShorty));
 
+  
 router.route("/new").get(catchAsync(shortyController.renderNewForm));
 router.route("/link/:id").get(catchAsync(shortyController.getOneShorty));
 router.route("/:shortUrl").get(catchAsync(shortyController.shortyRedirect));
